@@ -48,64 +48,65 @@ import (
 // }
 
 type Artist struct {
-	ID int `json:"id"`
-	Image string `json:"image"`
-	Name string `json:"name"`
-	Members []string `json:"members"`
-	CreationDate int `json:"creationDate"`
-	FirstAlbum string `json:"firstAlbum"`
-	Locations Locations `json:"locations"`
-	ConcertDates Dates `json:"concertDates"`
-	Relations Relations `json:"relations"`
+	ID           int       `json:"id"`
+	Image        string    `json:"image"`
+	Name         string    `json:"name"`
+	Members      []string  `json:"members"`
+	CreationDate int       `json:"creationDate"`
+	FirstAlbum   string    `json:"firstAlbum"`
+	Locations    Locations `json:"locations"`
+	ConcertDates Dates     `json:"concertDates"`
+	Relations    Relations `json:"relations"`
 }
 
 type Locations struct {
-	ID int `json:"id"`
+	ID       int      `json:"id"`
 	Location []string `json:"locations"`
-	Dates Dates `json:"dates"`
+	Dates    Dates    `json:"dates"`
 }
 type Dates struct {
-	ID int `json:"id"`
+	ID   int      `json:"id"`
 	Date []string `json:"dates"`
 }
 type Relations struct {
-	ID int `json:"id"`
+	ID             int `json:"id"`
 	DatesLocations map[string]string
 }
 
 func main() {
-	http.HandleFunc("/",func(w http.ResponseWriter, r *http.Request) {
-		res,err :=http.Get("https://groupietrackers.herokuapp.com/api/artists")
+	counter := 0
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 		if err != nil {
-			http.Error(w,"failed to fetch data",http.StatusInternalServerError)
-			return	
+			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
+			return
 		}
 		defer res.Body.Close()
 		var artists []Artist
 
 		json.NewDecoder(res.Body).Decode(&artists)
-		res,err =http.Get("https://groupietrackers.herokuapp.com/api/artists")
+		res, err = http.Get("https://groupietrackers.herokuapp.com/api/artists")
 		if err != nil {
-			http.Error(w,"failed to fetch data",http.StatusInternalServerError)
-			return	
+			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
+			return
 		}
 		defer res.Body.Close()
 		var locations []Locations
 		json.NewDecoder(res.Body).Decode(&locations)
 
-		res,err =http.Get("https://groupietrackers.herokuapp.com/api/artists")
+		res, err = http.Get("https://groupietrackers.herokuapp.com/api/artists")
 		if err != nil {
-			http.Error(w,"failed to fetch data",http.StatusInternalServerError)
-			return	
+			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
+			return
 		}
 		defer res.Body.Close()
 		var dates []Dates
 		json.NewDecoder(res.Body).Decode(&dates)
 
-		res,err =http.Get("https://groupietrackers.herokuapp.com/api/artists")
+		res, err = http.Get("https://groupietrackers.herokuapp.com/api/artists")
 		if err != nil {
-			http.Error(w,"failed to fetch data",http.StatusInternalServerError)
-			return	
+			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
+			return
 		}
 		defer res.Body.Close()
 		var relations []Dates
@@ -115,7 +116,9 @@ func main() {
 		fmt.Printf("Locations %#v\n\n", locations[1])
 		fmt.Printf("Dates %#v\n\n", dates[1])
 		fmt.Printf("Relations %#v\n\n", relations[1])
+		counter++
+		fmt.Println(counter)
 	})
 	fmt.Println("http://localhost:8080/")
-	http.ListenAndServe(":8080",nil)
+	http.ListenAndServe(":8080", nil)
 }
