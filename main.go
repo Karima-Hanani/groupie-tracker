@@ -70,7 +70,7 @@ type Dates struct {
 }
 type Relations struct {
 	ID             int `json:"id"`
-	DatesLocations map[string]string
+	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
 func main() {
@@ -88,50 +88,67 @@ func main() {
 			fmt.Println("Naaah something's wrong dude :/\n", err)
 			return
 		}
-
-		res, err = http.Get("https://groupietrackers.herokuapp.com/api/locations")
+		
+		res1, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 		if err != nil {
 			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
 			return
 		}
+		defer res1.Body.Close()
+		locationWrapper:= struct{
+			Index []Locations `json:"index"`
+		}{}
 		var locations []Locations
-		err = json.NewDecoder(res.Body).Decode(&locations)
+		err = json.NewDecoder(res1.Body).Decode(&locationWrapper)
 		if err != nil {
 			fmt.Println("Naaah something's wrong dude :/\n", err)
 			return
 		}
+		locations=locationWrapper.Index
 
-		res, err = http.Get("https://groupietrackers.herokuapp.com/api/dates")
+		res2, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 		if err != nil {
 			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
 			return
 		}
+		defer res2.Body.Close()
 		var dates []Dates
-		err = json.NewDecoder(res.Body).Decode(&dates)
+		datesWrapper:= struct{
+			Index []Dates `json:"index"`
+		}{}
+		err = json.NewDecoder(res2.Body).Decode(&datesWrapper)
 		if err != nil {
 			fmt.Println("Naaah something's wrong dude :/\n", err)
 			return
 		}
+		dates=datesWrapper.Index
 
-		res, err = http.Get("https://groupietrackers.herokuapp.com/api/relations")
+		res3, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 		if err != nil {
-			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
+			http.Error(w, "failed to fetch relations", http.StatusInternalServerError)
 			return
 		}
+		defer res3.Body.Close()
 		var relations []Relations
-		err = json.NewDecoder(res.Body).Decode(&relations)
+		var relationsWrapper struct{
+			Index []Relations `json:"index"`
+		}
+		// fmt.Printf("res3 \n\n%#v\n\n", res3)
+		err = json.NewDecoder(res3.Body).Decode(&relationsWrapper)
 		if err != nil {
-			fmt.Println("Naaah something's wrong dude :/\n", err)
+			fmt.Println("Naaah! something's wrong with relations dude :/\n", err)
 			return
 		}
+		relations=relationsWrapper.Index
 
 		fmt.Printf("Artists====== \n\n%#v\n\n", artists[0])
-		fmt.Printf("Locations====== \n\n%#v\n\n", locations)
+		fmt.Printf("Locations====== \n\n%#v\n\n", locations[0])
 		fmt.Printf("Dates====== \n\n%#v\n\n", dates[0])
-		fmt.Printf("Relations====== \n\n%#v\n\n", relations)
+		fmt.Printf("Relations====== \n\n%#v\n\n", relations[0])
 		counter++
 		fmt.Println(counter)
 	})
 	fmt.Println("http://localhost:8080/")
 	http.ListenAndServe(":8080", nil)
+	
 }
