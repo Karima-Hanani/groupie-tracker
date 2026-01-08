@@ -54,15 +54,15 @@ type Artist struct {
 	Members      []string  `json:"members"`
 	CreationDate int       `json:"creationDate"`
 	FirstAlbum   string    `json:"firstAlbum"`
-	Locations    Locations `json:"locations"`
-	ConcertDates Dates     `json:"concertDates"`
-	Relations    Relations `json:"relations"`
+	// Locations    Locations `json:"locations"`
+	// ConcertDates Dates     `json:"concertDates"`
+	// Relations    Relations `json:"relations"`
 }
 
 type Locations struct {
 	ID       int      `json:"id"`
 	Location []string `json:"locations"`
-	Dates    Dates    `json:"dates"`
+	// Dates    Dates    `json:"dates"`
 }
 type Dates struct {
 	ID   int      `json:"id"`
@@ -83,39 +83,52 @@ func main() {
 		}
 		defer res.Body.Close()
 		var artists []Artist
+		err = json.NewDecoder(res.Body).Decode(&artists)
+		if err != nil {
+			fmt.Println("Naaah something's wrong dude :/\n", err)
+			return
+		}
 
-		json.NewDecoder(res.Body).Decode(&artists)
-		res, err = http.Get("https://groupietrackers.herokuapp.com/api/artists")
+		res, err = http.Get("https://groupietrackers.herokuapp.com/api/locations")
 		if err != nil {
 			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
 			return
 		}
-		defer res.Body.Close()
 		var locations []Locations
-		json.NewDecoder(res.Body).Decode(&locations)
+		err = json.NewDecoder(res.Body).Decode(&locations)
+		if err != nil {
+			fmt.Println("Naaah something's wrong dude :/\n", err)
+			return
+		}
 
-		res, err = http.Get("https://groupietrackers.herokuapp.com/api/artists")
+		res, err = http.Get("https://groupietrackers.herokuapp.com/api/dates")
 		if err != nil {
 			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
 			return
 		}
-		defer res.Body.Close()
 		var dates []Dates
-		json.NewDecoder(res.Body).Decode(&dates)
+		err = json.NewDecoder(res.Body).Decode(&dates)
+		if err != nil {
+			fmt.Println("Naaah something's wrong dude :/\n", err)
+			return
+		}
 
-		res, err = http.Get("https://groupietrackers.herokuapp.com/api/artists")
+		res, err = http.Get("https://groupietrackers.herokuapp.com/api/relations")
 		if err != nil {
 			http.Error(w, "failed to fetch data", http.StatusInternalServerError)
 			return
 		}
-		defer res.Body.Close()
-		var relations []Dates
-		json.NewDecoder(res.Body).Decode(&relations)
+		var relations []Relations
+		err = json.NewDecoder(res.Body).Decode(&relations)
+		if err != nil {
+			fmt.Println("Naaah something's wrong dude :/\n", err)
+			return
+		}
 
-		fmt.Printf("Artists %#v\n\n", artists[1])
-		fmt.Printf("Locations %#v\n\n", locations[1])
-		fmt.Printf("Dates %#v\n\n", dates[1])
-		fmt.Printf("Relations %#v\n\n", relations[1])
+		fmt.Printf("Artists====== \n\n%#v\n\n", artists[0])
+		fmt.Printf("Locations====== \n\n%#v\n\n", locations)
+		fmt.Printf("Dates====== \n\n%#v\n\n", dates[0])
+		fmt.Printf("Relations====== \n\n%#v\n\n", relations)
 		counter++
 		fmt.Println(counter)
 	})
