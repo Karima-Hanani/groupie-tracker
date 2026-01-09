@@ -9,7 +9,7 @@ func ErrorPage(w http.ResponseWriter,r *http.Request, msg string, status int) {
 	w.WriteHeader(status)
 	tmpl, err := template.ParseFiles("handler/errorpage.html")
 	if err != nil {
-		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		http.ServeFile(w,r ,"500 Internal Server Error")
 		return
 	}
 	data := struct {

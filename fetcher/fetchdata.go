@@ -88,8 +88,8 @@ func FetchDates() ([]Dates, error) {
 	dates = datesWrapper.Index
 	return dates, nil
 }
-func FetchRelations() ([]Relations, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
+func FetchRelations(id string) ([]Relations, error) {
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + fmt.Sprint(id))
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch relations %#v", err)
 	}

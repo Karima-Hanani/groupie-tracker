@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GROUPIE-TRACKER</title>
+</head>
+<body>
+    <div>
+        <h1>Groupie Tracker</h1>
+        {{range .}}
+        <div class="Card">
+                <img src="{{.Image}}" alt="{{.Name}} Image" />
+                <h2>{{.Name}}</h2>
+                <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
+        </div>
+        {{end}}
+    </div>
+</body>
+</html>

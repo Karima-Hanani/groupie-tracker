@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GROUPIE-TRACKER</title>
+</head>
+<body>
+    <div>
+        <h1>{{.Name}}</h1>
+        <img src="{{.Image}}" alt="{{.Name}} Image" />
+        <div>
+            <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
+            <p><strong>Members:</strong></p>
+            <ul>
+                {{range .Members}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+            <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
+        </div>
+        <div>
+            <p><strong>{{.}}</strong></p>
+            <ul>
+                {{range .Relations}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
