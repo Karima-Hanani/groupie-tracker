@@ -38,13 +38,13 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 	// 	http.Error(w, "Failed to load relations.", http.StatusInternalServerError)
 	// 	return
 	// }
-	tmpl, err := template.ParseFiles("handler/homepage.html")
+	tmpl, err := template.ParseFiles("template/index.html")
 	if err != nil {
 		ErrorPage(w,r, "Failed to load template.", http.StatusInternalServerError)
 		return
 	}
 	// Render the homepage template with the fetched data
-	err = tmpl.ExecuteTemplate(w, "homepage.html",artists)
+	err = tmpl.ExecuteTemplate(w, "index.html",artists)
 	
 	// "Locations": locations,
 	// "Dates":     dates,

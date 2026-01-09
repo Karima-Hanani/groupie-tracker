@@ -88,21 +88,20 @@ func FetchDates() ([]Dates, error) {
 	dates = datesWrapper.Index
 	return dates, nil
 }
-func FetchRelations(id string) ([]Relations, error) {
+func FetchRelations(id string) (Relations, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + fmt.Sprint(id))
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch relations %#v", err)
+		return Relations{}, fmt.Errorf("failed to fetch relations %#v", err)
 	}
 	defer res.Body.Close()
-	var relations []Relations
-	var relationsWrapper struct {
-		Index []Relations `json:"index"`
-	}
-	err = json.NewDecoder(res.Body).Decode(&relationsWrapper)
+	var relation Relations
+	// var relationsWrapper struct {
+	// 	Index []Relations `json:"index"`
+	// }
+	err = json.NewDecoder(res.Body).Decode(&relation)
 	if err != nil {
 		// fmt.Println("Naaah! something's wrong with relations dude :/\n", err)
-		return nil, fmt.Errorf("failed to decode data %#v", err)
+		return Relations{}, fmt.Errorf("failed to decode data %#v", err)
 	}
-	relations = relationsWrapper.Index
-	return relations, nil
+	return relation, nil
 }

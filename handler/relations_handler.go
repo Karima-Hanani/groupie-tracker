@@ -25,6 +25,7 @@ func RelationsHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorPage(w, r, "Failed to load relations.", http.StatusInternalServerError)
 		return
 	}
+	
 
 	tmpl, err := template.ParseFiles("handler/relations.html")
 	if err != nil {
