@@ -68,6 +68,8 @@ func FetchLocations() ([]Locations, error) {
 	locations = locationWrapper.Index
 	return locations, nil
 }
+
+
 func FetchDates() ([]Dates, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 	if err != nil {

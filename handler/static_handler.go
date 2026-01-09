@@ -1,10 +1,22 @@
 package handler
 
-import "net/http"
+import (
+	"net/http"
+	"os"
+	"path/filepath"
+)
 
 func StaticHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/static/" {
-		ErrorPage(w,"Access Forbidden",http.StatusForbidden)
+		ErrorPage(w, r,"Access Forbidden", http.StatusForbidden)
+		return
 	}
-	http.ServeFile(w, r, r.URL.Path[1:])
+
+	file := r.URL.Path[len("/static/"):]
+	path := filepath.Join("static", file)
+	if _, err := os.Stat(path); err != nil {
+		ErrorPage(w, r,"File Not Found", http.StatusNotFound)
+		return
+	}
+	http.ServeFile(w, r, path)
 }
