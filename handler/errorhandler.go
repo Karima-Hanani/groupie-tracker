@@ -7,7 +7,7 @@ import (
 )
 
 func ErrorPage(w http.ResponseWriter, r *http.Request, msg string, status int) {
-	// w.WriteHeader(status)
+	w.WriteHeader(status)
 	tmpl, err := template.ParseFiles("template/errorpage.html")
 	fmt.Println("error ", msg, "status ", status)
 	if err != nil {

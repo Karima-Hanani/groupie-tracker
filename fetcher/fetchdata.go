@@ -50,44 +50,60 @@ func FetchArtists() ([]Artist, error) {
 	return artists, nil
 }
 
-func FetchLocations() ([]Locations, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
+func FetchArtist(id string) (Artist, error) {
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists/" + fmt.Sprint(id))
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch data %#v", err)
+		// http.Error(w, "failed to fetch data", http.StatusInternalServerError)
+		return Artist{}, fmt.Errorf("failed to fetch data %#v", err)
 	}
 	defer res.Body.Close()
-	locationWrapper := struct {
-		Index []Locations `json:"index"`
-	}{}
-	var locations []Locations
-	err = json.NewDecoder(res.Body).Decode(&locationWrapper)
+
+	var artists Artist
+
+	err = json.NewDecoder(res.Body).Decode(&artists)
 	if err != nil {
 		// fmt.Println("Naaah something's wrong dude :/\n", err)
-		return nil, fmt.Errorf("failed to decode data %#v", err)
+		return Artist{}, fmt.Errorf("failed to decode data %#v", err)
 	}
-	locations = locationWrapper.Index
+	return artists, nil
+}
+
+func FetchLocations(id string) (Locations, error) {
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/locations/" + fmt.Sprint(id))
+	if err != nil {
+		return Locations{}, fmt.Errorf("failed to fetch data %#v", err)
+	}
+	defer res.Body.Close()
+
+	var locations Locations
+
+	err = json.NewDecoder(res.Body).Decode(&locations)
+	if err != nil {
+		// fmt.Println("Naaah something's wrong dude :/\n", err)
+		return Locations{}, fmt.Errorf("failed to decode data %#v", err)
+	}
+
 	return locations, nil
 }
 
-
-func FetchDates() ([]Dates, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
+func FetchDates(id string) (Dates, error) {
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/dates/" + fmt.Sprint(id))
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch data %#v", err)
+		return Dates{}, fmt.Errorf("failed to fetch data %#v", err)
 	}
 	defer res.Body.Close()
-	var dates []Dates
-	datesWrapper := struct {
-		Index []Dates `json:"index"`
-	}{}
-	err = json.NewDecoder(res.Body).Decode(&datesWrapper)
+
+	var dates Dates
+
+	err = json.NewDecoder(res.Body).Decode(&dates)
 	if err != nil {
 		// fmt.Println("Naaah something's wrong dude :/\n", err)
-		return nil, fmt.Errorf("failed to decode data %#v", err)
+		return Dates{}, fmt.Errorf("failed to decode data %#v", err)
 	}
-	dates = datesWrapper.Index
+
 	return dates, nil
 }
+
 func FetchRelations(id string) (Relations, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + fmt.Sprint(id))
 	if err != nil {

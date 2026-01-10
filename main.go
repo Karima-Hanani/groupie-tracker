@@ -51,7 +51,7 @@ import (
 func main() {
 	http.HandleFunc("/", handler.HomePage)
 	http.HandleFunc("/static/", handler.StaticHandler)
-	http.HandleFunc("/relations/", handler.RelationsHandler)
+	http.HandleFunc("/details", handler.DetailsHandler)
 	fmt.Println("http://localhost:8080/")
 	http.ListenAndServe(":8080", nil)
 }
