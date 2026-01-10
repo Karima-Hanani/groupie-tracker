@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+	"bytes"
 	"html/template"
 	"net/http"
 
@@ -15,7 +15,6 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	showID := r.URL.Query().Get("id")
-	fmt.Println("showID:", showID)
 	if showID == "" {
 		ErrorPage(w, r, "ID is required.", 400)
 		return
@@ -51,16 +50,16 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.ExecuteTemplate(w, "details.html", map[string]any{
+	var buff bytes.Buffer
+	err = tmpl.ExecuteTemplate(&buff, "details.html", map[string]any{
 		"Relations": Relation,
 		"Artist":    Artist,
 		"Dates":     Dates,
 		"Locations": Locations,
 	})
-
 	if err != nil {
 		ErrorPage(w, r, "Failed to render template.", 500)
 		return
 	}
-
+	w.Write(buff.Bytes())
 }
