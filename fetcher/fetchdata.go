@@ -41,8 +41,9 @@ func FetchArtists() ([]Artist, error) {
 	defer res.Body.Close()
 
 	var artists []Artist
-
+	
 	err = json.NewDecoder(res.Body).Decode(&artists)
+	artists[20].Image = "static/forbiden.png"
 	if err != nil {
 		// fmt.Println("Naaah something's wrong dude :/\n", err)
 		return nil, fmt.Errorf("failed to decode data %#v", err)
@@ -61,6 +62,9 @@ func FetchArtist(id string) (Artist, error) {
 	var artists Artist
 
 	err = json.NewDecoder(res.Body).Decode(&artists)
+	if id == "20" {
+		artists.Image = "static/forbiden.png"
+	}
 	if err != nil {
 		// fmt.Println("Naaah something's wrong dude :/\n", err)
 		return Artist{}, fmt.Errorf("failed to decode data %#v", err)
