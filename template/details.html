@@ -8,26 +8,50 @@
 </head>
 <body>
     <div>
-        <h1>{{.Name}}</h1>
-        <img src="{{.Image}}" alt="{{.Name}} Image" />
-        <div>
-            <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
-            <p><strong>Members:</strong></p>
+        <img src="{{.Artist.Image}}" alt="{{.Artist.Name}} Image" />
+        <h1>{{.Artist.Name}}</h1>
+        <p><strong>Creation Date:</strong> {{.Artist.CreationDate}}</p>
+        <p><strong>First Album:</strong> {{.Artist.FirstAlbum}}</p>
+
+        <section class="Members">
+            <h3>Members:</h3>
             <ul>
-                {{range .Members}}
+                {{range .Artist.Members}}
                 <li>{{.}}</li>
                 {{end}}
             </ul>
-            <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
-        </div>
-        <div>
-            <p><strong>{{.}}</strong></p>
+        </section>
+        <section>
+            <h3>Locations:</h3>
             <ul>
-                {{range .Relations}}
+                {{range .Locations.Location}}
                 <li>{{.}}</li>
                 {{end}}
             </ul>
-        </div>
+        </section>
+        <section>
+            <h3>Dates:</h3>
+            <ul>
+                {{range .Dates.Date}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </section>
+        <section>
+            <h3>Tour Schedule:</h3>
+            {{range $city, $dates := .Relations.DatesLocations}}
+            <div>
+                <h4>{{ $city }}</h4>
+                <ul>
+                    {{range $dates}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
+            </div>
+            {{else}}
+            <p>No tour dates available.</p>
+            {{end}}
+        </section>
     </div>
 </body>
 </html>

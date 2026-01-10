@@ -7,10 +7,12 @@ import (
 )
 
 func ErrorPage(w http.ResponseWriter, r *http.Request, msg string, status int) {
-	w.WriteHeader(status)
+	// w.WriteHeader(status)
+	fmt.Println("Header :", w.Header())
 	tmpl, err := template.ParseFiles("template/errorpage.html")
-	fmt.Println("error ", msg, "status ", status)
+	fmt.Println("\nerror ", msg, "status ", status)
 	if err != nil {
+		fmt.Println("\n\nParse errorpage err :", err)
 		http.ServeFile(w, r, "/static/error.html")
 		return
 	}
@@ -23,6 +25,7 @@ func ErrorPage(w http.ResponseWriter, r *http.Request, msg string, status int) {
 	}
 	err = tmpl.ExecuteTemplate(w, "errorpage.html", data)
 	if err != nil {
+		fmt.Println("execute errorpage err :", err)
 		// http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 		http.ServeFile(w, r, "/static/error.html")
 		return

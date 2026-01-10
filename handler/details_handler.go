@@ -21,6 +21,24 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	Artist, err := fetcher.FetchArtist(showID)
+	if err != nil {
+		ErrorPage(w, r, "Failed to load artist.", http.StatusInternalServerError)
+		return
+	}
+
+	Dates, err := fetcher.FetchDates(showID)
+	if err != nil {
+		ErrorPage(w, r, "Failed to load dates.", http.StatusInternalServerError)
+		return
+	}
+
+	Locations, err := fetcher.FetchLocations(showID)
+	if err != nil {
+		ErrorPage(w, r, "Failed to load locations.", http.StatusInternalServerError)
+		return
+	}
+
 	Relation, err := fetcher.FetchRelations(showID)
 	if err != nil {
 		ErrorPage(w, r, "Failed to load relations.", http.StatusInternalServerError)
@@ -29,12 +47,19 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("template/details.html")
 	if err != nil {
+		fmt.Println("parse details err :", err)
 		ErrorPage(w, r, "Failed to load template.", http.StatusInternalServerError)
 		return
 	}
 
-	err = tmpl.ExecuteTemplate(w, "details.html", Relation)
+	err = tmpl.ExecuteTemplate(w, "details.html", map[string]any{
+		"Relations": Relation,
+		"Artist":    Artist,
+		"Dates":     Dates,
+		"Locations": Locations,
+	})
 	if err != nil {
+		fmt.Println("details err :", err)
 		ErrorPage(w, r, "Failed to render template.", http.StatusInternalServerError)
 		return
 	}
