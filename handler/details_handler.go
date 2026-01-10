@@ -62,5 +62,5 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorPage(w, r, "Failed to render template.", 500)
 		return
 	}
-	
+
 }
