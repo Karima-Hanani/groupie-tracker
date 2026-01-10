@@ -8,49 +8,36 @@ import (
 )
 
 func HomePage(w http.ResponseWriter, r *http.Request) {
+
 	// check for path
 	if r.URL.Path != "/" {
-		ErrorPage(w,r, "404 not found.", http.StatusNotFound)
+		ErrorPage(w,r, "Page not found.", 404)
 		return
 	}
+
 	// check for method
 	if r.Method != "GET" {
-		ErrorPage(w,r, "Method is not supported.", http.StatusNotFound)
+		ErrorPage(w, r, "Method is not supported.", 405)
 		return
 	}
+
 	artists, err := fetcher.FetchArtists()
 	if err != nil {
-		ErrorPage(w,r, "Failed to load artists.", http.StatusInternalServerError)
+		ErrorPage(w,r, "Failed to load artists.", 500)
 		return
 	}
-	// locations, err := fetcher.FetchLocations()
-	// if err != nil {
-	// 	http.Error(w, "Failed to load locations.", http.StatusInternalServerError)
-	// 	return
-	// }
-	// dates, err := fetcher.FetchDates()
-	// if err != nil {
-	// 	http.Error(w, "Failed to load dates.", http.StatusInternalServerError)
-	// 	return
-	// }
-	// relations, err := fetcher.FetchRelations()
-	// if err != nil {
-	// 	http.Error(w, "Failed to load relations.", http.StatusInternalServerError)
-	// 	return
-	// }
+	
 	tmpl, err := template.ParseFiles("template/index.html")
 	if err != nil {
-		ErrorPage(w,r, "Failed to load template.", http.StatusInternalServerError)
+		ErrorPage(w,r, "Failed to load template.", 500)
 		return
 	}
+
 	// Render the homepage template with the fetched data
 	err = tmpl.ExecuteTemplate(w, "index.html",artists)
 	
-	// "Locations": locations,
-	// "Dates":     dates,
-	// "Relations": relations,
 	if err != nil {
-		ErrorPage(w,r, "Failed to render template.", http.StatusInternalServerError)
+		ErrorPage(w,r, "Failed to render template.", 500)
 		return
 	}
 }
