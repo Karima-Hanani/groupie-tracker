@@ -17,7 +17,7 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 
 	// check for method
 	if r.Method != "GET" {
-		ErrorPage(w,r, "Method is not supported.", 404)
+		ErrorPage(w, r, "Method is not supported.", 405)
 		return
 	}
 

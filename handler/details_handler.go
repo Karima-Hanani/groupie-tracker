@@ -10,45 +10,44 @@ import (
 
 func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
-		ErrorPage(w, r, "Method is not supported.", http.StatusMethodNotAllowed)
+		ErrorPage(w, r, "Method is not supported.", 405)
 		return
 	}
 
 	showID := r.URL.Query().Get("id")
 	fmt.Println("showID:", showID)
 	if showID == "" {
-		ErrorPage(w, r, "ID is required.", http.StatusBadRequest)
+		ErrorPage(w, r, "ID is required.", 400)
 		return
 	}
 
 	Artist, err := fetcher.FetchArtist(showID)
 	if err != nil {
-		ErrorPage(w, r, "Failed to load artist.", http.StatusInternalServerError)
+		ErrorPage(w, r, "Failed to load artist.", 500)
 		return
 	}
 
 	Dates, err := fetcher.FetchDates(showID)
 	if err != nil {
-		ErrorPage(w, r, "Failed to load dates.", http.StatusInternalServerError)
+		ErrorPage(w, r, "Failed to load dates.", 500)
 		return
 	}
 
 	Locations, err := fetcher.FetchLocations(showID)
 	if err != nil {
-		ErrorPage(w, r, "Failed to load locations.", http.StatusInternalServerError)
+		ErrorPage(w, r, "Failed to load locations.", 500)
 		return
 	}
 
 	Relation, err := fetcher.FetchRelations(showID)
 	if err != nil {
-		ErrorPage(w, r, "Failed to load relations.", http.StatusInternalServerError)
+		ErrorPage(w, r, "Failed to load relations.", 500)
 		return
 	}
 
 	tmpl, err := template.ParseFiles("template/details.html")
 	if err != nil {
-		fmt.Println("parse details err :", err)
-		ErrorPage(w, r, "Failed to load template.", http.StatusInternalServerError)
+		ErrorPage(w, r, "Failed to load template.", 500)
 		return
 	}
 
@@ -58,9 +57,10 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		"Dates":     Dates,
 		"Locations": Locations,
 	})
+
 	if err != nil {
-		fmt.Println("details err :", err)
-		ErrorPage(w, r, "Failed to render template.", http.StatusInternalServerError)
+		ErrorPage(w, r, "Failed to render template.", 500)
 		return
 	}
+	
 }
