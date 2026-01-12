@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"html/template"
 	"net/http"
+	"strings"
 
 	"groupie-tracker/fetcher"
 )
@@ -30,6 +31,12 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		ErrorPage(w, r, "Failed to load dates.", 500)
 		return
+	}
+
+	for i, v := range Dates.Date {
+		if strings.HasPrefix(v, "*") {
+			Dates.Date[i] = v[1:]
+		}
 	}
 
 	Locations, err := fetcher.FetchLocations(showID)
