@@ -27,6 +27,10 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if showID == "21" {
+		Artist.Image = "static/forbiden.png"
+	}
+
 	Dates, err := fetcher.FetchDates(showID)
 	if err != nil {
 		ErrorPage(w, r, "Failed to load dates.", 500)

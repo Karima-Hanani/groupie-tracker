@@ -40,6 +40,7 @@ func FetchArtists() ([]Artist, error) {
 	var artists []Artist
 	
 	err = json.NewDecoder(res.Body).Decode(&artists)
+	
 	artists[20].Image = "static/forbiden.png"
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode artists %#v", err)
