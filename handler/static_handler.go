@@ -15,7 +15,7 @@ func StaticHandler(w http.ResponseWriter, r *http.Request) {
 	file := r.URL.Path[len("/static/"):]
 	path := filepath.Join("static", file)
 	if _, err := os.Stat(path); err != nil {
-		ErrorPage(w, r, "File Not Found", 403)
+		ErrorPage(w, r, "File Not Found", 404)
 		return
 	}
 	http.ServeFile(w, r, path)
