@@ -22,7 +22,7 @@
                 {{end}}
             </ul>
         </section>
-        <section>
+        <section class="Locations">
             <h3>Locations:</h3>
             <ul>
                 {{range .Locations.Location}}
@@ -30,7 +30,7 @@
                 {{end}}
             </ul>
         </section>
-        <section>
+        <section class="Dates">
             <h3>Dates:</h3>
             <ul>
                 {{range .Dates.Date}}
@@ -38,7 +38,7 @@
                 {{end}}
             </ul>
         </section>
-        <section>
+        <section class="Relations">
             <h3>Tour Schedule:</h3>
             {{range $city, $dates := .Relations.DatesLocations}}
             <div>

@@ -76,6 +76,48 @@ section.Members li {
     font-size: 16px;
 }
 
+section.Locations {
+    background-color: #FFFFFF;
+    padding: 1.5rem;
+    border-radius: 14px;
+    box-shadow: 0px 8px 20px rgba(162, 148, 249, 0.25);
+}
+
+section.Locations ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+section.Locations li {
+    background-color: #F5EFFF;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+section.Dates {
+    background-color: #FFFFFF;
+    padding: 1.5rem;
+    border-radius: 14px;
+    box-shadow: 0px 8px 20px rgba(162, 148, 249, 0.25);
+}
+
+section.Dates ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+section.Dates li {
+    background-color: #F5EFFF;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
 h3 {
     color: #403b72;
     font-size: 24px;
