@@ -58,7 +58,7 @@ func FetchArtist(id string) (Artist, error) {
 	var artists Artist
 
 	err = json.NewDecoder(res.Body).Decode(&artists)
-	if id == "20" {
+	if id == "21" {
 		artists.Image = "static/forbiden.png"
 	}
 	if err != nil {
