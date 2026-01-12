@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strings"
@@ -53,6 +54,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("template/details.html")
 	if err != nil {
+		fmt.Println("Error", err)
 		ErrorPage(w, r, "Failed to load template.", 500)
 		return
 	}
@@ -65,6 +67,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		"Locations": Locations,
 	})
 	if err != nil {
+		fmt.Println("Render : ",err)
 		ErrorPage(w, r, "Failed to render template.", 500)
 		return
 	}
