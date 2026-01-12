@@ -30,6 +30,8 @@ type Relations struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
+
+// FetchArtists fetches the list of artists from the external API.
 func FetchArtists() ([]Artist, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
@@ -39,6 +41,7 @@ func FetchArtists() ([]Artist, error) {
 
 	var artists []Artist
 	
+	// Decode the JSON response into the artists slice
 	err = json.NewDecoder(res.Body).Decode(&artists)
 	
 	artists[20].Image = "static/forbiden.png"
@@ -48,6 +51,8 @@ func FetchArtists() ([]Artist, error) {
 	return artists, nil
 }
 
+
+// FetchArtist fetches the details of a specific artist by ID from the external API.
 func FetchArtist(id string) (Artist, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists/" + id)
 	if err != nil {
@@ -67,15 +72,15 @@ func FetchArtist(id string) (Artist, error) {
 	return artists, nil
 }
 
+// FetchLocations fetches the locations of a specific artist by ID from the external API.
 func FetchLocations(id string) (Locations, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/locations/" + id)
 	if err != nil {
 		return Locations{}, fmt.Errorf("failed to fetch locations %#v", err)
 	}
 	defer res.Body.Close()
-
+	
 	var locations Locations
-
 	err = json.NewDecoder(res.Body).Decode(&locations)
 	if err != nil {
 		return Locations{}, fmt.Errorf("failed to decode locations %#v", err)
@@ -84,6 +89,7 @@ func FetchLocations(id string) (Locations, error) {
 	return locations, nil
 }
 
+// FetchDates fetches the dates of a specific artist by ID from the external API.
 func FetchDates(id string) (Dates, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/dates/" + id)
 	if err != nil {
@@ -101,6 +107,7 @@ func FetchDates(id string) (Dates, error) {
 	return dates, nil
 }
 
+// FetchRelations fetches the relations of a specific artist by ID from the external API.
 func FetchRelations(id string) (Relations, error) {
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + id)
 	if err != nil {

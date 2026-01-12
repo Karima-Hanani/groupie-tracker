@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 )
 
+// StaticHandler serves static files while preventing directory access.
 func StaticHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/static/" {
 		ErrorPage(w, r, "Access Forbidden", 403)

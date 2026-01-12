@@ -54,7 +54,6 @@ p {
     grid-column: 1 / -1;
 }
 
-/* section.card, */
 section.Members {
     background-color: #FFFFFF;
     padding: 1.5rem;
@@ -119,7 +118,7 @@ section.Dates li {
 }
 
 section.Relations {
-    grid-column: 1 / -1; /* يشد container كامل */
+    grid-column: 1 / -1;
     background-color: #FFFFFF;
     padding: 1.5rem;
     border-radius: 14px;
@@ -178,27 +177,8 @@ li {
     text-align: center;
 }
 
-/* section.card ul {
-    columns: 2;
-    column-gap: 1.5rem;
-}
-
-.inner-card {
-    background-color: #F5EFFF;
-    padding: 1rem;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    box-shadow: inset 0px 0px 10px rgba(162, 148, 249, 0.2);
-} */
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
-
 a {
-    grid-column: 1 / -1;       /* يشد container كامل */
+    grid-column: 1 / -1;    
     display: inline-block;
     margin: 2rem auto 0;
     padding: 0.8rem 2.5rem;

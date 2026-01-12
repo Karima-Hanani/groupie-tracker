@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// ErrorPage renders an error page with the given message and status code.
 func ErrorPage(w http.ResponseWriter, r *http.Request, msg string, status int) {
 	w.WriteHeader(status)
 	tmpl, err := template.ParseFiles("template/errorpage.html")
@@ -21,6 +22,7 @@ func ErrorPage(w http.ResponseWriter, r *http.Request, msg string, status int) {
 		Message: msg,
 		Status:  status,
 	}
+
 	var buff bytes.Buffer
 	err = tmpl.ExecuteTemplate(&buff, "errorpage.html", data)
 	if err != nil {

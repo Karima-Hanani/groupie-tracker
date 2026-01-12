@@ -11,12 +11,13 @@ import (
 	"groupie-tracker/fetcher"
 )
 
+// DetailsHandler handles the details page for a specific artist.
 func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		ErrorPage(w, r, "Method is not supported.", 405)
 		return
 	}
-
+	// Get artist ID from query parameters
 	showID := r.URL.Query().Get("id")
 	id, err := strconv.Atoi(showID)
 	if showID == "" || err != nil || (id < 1 || id > 52) {
@@ -35,7 +36,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorPage(w, r, "Failed to load dates.", 500)
 		return
 	}
-
+	// Clean up date strings by removing leading asterisks
 	for i, v := range Dates.Date {
 		if strings.HasPrefix(v, "*") {
 			Dates.Date[i] = v[1:]
@@ -61,6 +62,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Render the template with the fetched data
 	var buff bytes.Buffer
 	err = tmpl.ExecuteTemplate(&buff, "details.html", map[string]any{
 		"Relations": Relation,
