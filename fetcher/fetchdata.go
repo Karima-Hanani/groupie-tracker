@@ -49,7 +49,7 @@ func FetchArtists() ([]Artist, error) {
 }
 
 func FetchArtist(id string) (Artist, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists/" + fmt.Sprint(id))
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists/" + id)
 	if err != nil {
 		return Artist{}, fmt.Errorf("failed to fetch artist %#v", err)
 	}
@@ -68,7 +68,7 @@ func FetchArtist(id string) (Artist, error) {
 }
 
 func FetchLocations(id string) (Locations, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/locations/" + fmt.Sprint(id))
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/locations/" + id)
 	if err != nil {
 		return Locations{}, fmt.Errorf("failed to fetch locations %#v", err)
 	}
@@ -85,7 +85,7 @@ func FetchLocations(id string) (Locations, error) {
 }
 
 func FetchDates(id string) (Dates, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/dates/" + fmt.Sprint(id))
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/dates/" + id)
 	if err != nil {
 		return Dates{}, fmt.Errorf("failed to fetch dates %#v", err)
 	}
@@ -102,7 +102,7 @@ func FetchDates(id string) (Dates, error) {
 }
 
 func FetchRelations(id string) (Relations, error) {
-	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + fmt.Sprint(id))
+	res, err := http.Get("https://groupietrackers.herokuapp.com/api/relation/" + id)
 	if err != nil {
 		return Relations{}, fmt.Errorf("failed to fetch relations %#v", err)
 	}
