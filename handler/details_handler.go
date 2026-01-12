@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"groupie-tracker/fetcher"
@@ -17,8 +18,9 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	showID := r.URL.Query().Get("id")
-	if showID == "" {
-		ErrorPage(w, r, "ID is required.", 400)
+	id, err := strconv.Atoi(showID)
+	if showID == "" || err != nil || (id < 1 || id > 52) {
+		ErrorPage(w, r, "Bad Request.", 400)
 		return
 	}
 
