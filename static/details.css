@@ -54,7 +54,7 @@ p {
     grid-column: 1 / -1;
 }
 
-section.card,
+/* section.card, */
 section.Members {
     background-color: #FFFFFF;
     padding: 1.5rem;
@@ -142,7 +142,7 @@ li {
     text-align: center;
 }
 
-section.card ul {
+/* section.card ul {
     columns: 2;
     column-gap: 1.5rem;
 }
@@ -153,6 +153,12 @@ section.card ul {
     border-radius: 10px;
     margin-bottom: 1rem;
     box-shadow: inset 0px 0px 10px rgba(162, 148, 249, 0.2);
+} */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
 }
 
 @media (max-width: 600px) {
@@ -164,7 +170,8 @@ section.card ul {
         font-size: 18px;
     }
 
-    section.card ul {
-        columns: 1;
+    .container {
+        padding: 1.5rem;
+        gap: 1rem;
     }
 }
