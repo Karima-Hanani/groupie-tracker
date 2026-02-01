@@ -57,9 +57,10 @@ go run .
 ```bash
 .
 ├── main.go            # Entry point for the server
-├── server/            # HTTP handlers and routing logic
-├── templates/         # HTML template files (index.html, artist.html)
+├── handler/            # HTTP handlers and routing logic
+├── template/         # HTML template files (index.html, artist.html)
 ├── static/            # CSS files and images
+├── fetcher/            # fetch infos from APIs
 └── README.md
 ```
 
