@@ -2,32 +2,27 @@ package handler
 
 import (
 	"bytes"
-	"html/template"
 	"net/http"
 )
 
 // ErrorPage renders an error page with the given message and status code.
 func ErrorPage(w http.ResponseWriter, r *http.Request, msg string, status int) {
-	w.WriteHeader(status)
-	tmpl, err := template.ParseFiles("template/errorpage.html")
-	if err != nil {
-		http.ServeFile(w, r, "/static/error.html")
-		return
-	}
-
+	
 	data := struct {
 		Message string
 		Status  int
-	}{
-		Message: msg,
-		Status:  status,
-	}
-
+		}{
+			Message: msg,
+			Status:  status,
+		}
+		
 	var buff bytes.Buffer
-	err = tmpl.ExecuteTemplate(&buff, "errorpage.html", data)
+	err := templates.ExecuteTemplate(&buff, "errorpage.html", data)
 	if err != nil {
-		http.ServeFile(w, r, "/static/error.html")
+		w.WriteHeader(500)
+		templates.ExecuteTemplate(w, "error.html", data)
 		return
-	}
+		}
+	w.WriteHeader(status)
 	w.Write(buff.Bytes())
 }

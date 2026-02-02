@@ -3,7 +3,6 @@ package handler
 import (
 	"bytes"
 	"fmt"
-	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
@@ -55,23 +54,16 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles("template/details.html")
-	if err != nil {
-		fmt.Println("Error", err)
-		ErrorPage(w, r, "Failed to load template.", 500)
-		return
-	}
-
 	// Render the template with the fetched data
 	var buff bytes.Buffer
-	err = tmpl.ExecuteTemplate(&buff, "details.html", map[string]any{
+	err = templates.ExecuteTemplate(&buff, "details.html", map[string]any{
 		"Relations": Relation,
 		"Artist":    Artist,
 		"Dates":     Dates,
 		"Locations": Locations,
 	})
 	if err != nil {
-		fmt.Println("Render : ",err)
+		fmt.Println("Render : ", err)
 		ErrorPage(w, r, "Failed to render template.", 500)
 		return
 	}
