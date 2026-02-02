@@ -27,6 +27,10 @@ func main() {
 	http.HandleFunc("/", handler.HomePage)
 	http.HandleFunc("/static/", handler.StaticHandler)
 	http.HandleFunc("/details", handler.DetailsHandler)
-	fmt.Println("http://localhost:8080/")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("http://localhost:8580/")
+	err = http.ListenAndServe(":8580", nil)
+	if err != nil {
+		fmt.Println("error",err)
+		return
+	}
 }
