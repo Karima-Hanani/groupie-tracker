@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"groupie-tracker/fetcher"
@@ -16,17 +15,15 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorPage(w, r, "Method is not supported.", 405)
 		return
 	}
-	// Get artist ID from query parameters
 	showID := r.URL.Query().Get("id")
-	id, err := strconv.Atoi(showID)
-	if showID == "" || err != nil || (id < 1 || id > 52) {
-		ErrorPage(w, r, "Bad Request.", 400)
-		return
-	}
 
 	Artist, err := fetcher.FetchArtist(showID)
 	if err != nil {
 		ErrorPage(w, r, "Failed to load artist.", 500)
+		return
+	}
+	if Artist.ID == 0 {
+		ErrorPage(w, r, "Artist Not found", 404)
 		return
 	}
 
@@ -44,7 +41,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 
 	Locations, err := fetcher.FetchLocations(showID)
 	if err != nil {
-		ErrorPage(w, r, "Failed to load locations.", 500)
+		ErrorPage(w, r, "Failed to loaddd locations.", 500)
 		return
 	}
 
