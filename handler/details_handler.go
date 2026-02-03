@@ -16,6 +16,10 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	showID := r.URL.Query().Get("id")
+	if showID == "" {
+		ErrorPage(w, r, "Page Not Found.", 404)
+		return
+	}
 
 	Artist, err := fetcher.FetchArtist(showID)
 	if err != nil {
